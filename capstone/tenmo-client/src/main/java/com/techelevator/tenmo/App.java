@@ -2,18 +2,25 @@ package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
+import com.techelevator.tenmo.services.TransferService;
+
 
 public class App {
 
     private static final String API_BASE_URL = "http://localhost:8080/";
+    private static final User user = new User();
+    private static final Account account = new Account();
 
     private final ConsoleService consoleService = new ConsoleService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
-    private final AccountService accountService = new AccountService(API_BASE_URL);
+    private final AccountService accountService = new AccountService(API_BASE_URL, user);
+    private final TransferService transferService = new TransferService(API_BASE_URL, user, account);
+
 
     private AuthenticatedUser currentUser;
 
@@ -89,13 +96,13 @@ public class App {
 
 	private void viewCurrentBalance() {
 		// TODO Auto-generated method stub
+        System.out.println("Your current account balance is: $" + accountService.getBalanceByAccountId(currentUser.getUser().getId()));
 
-		accountService.getBalanceByAccountId()
 	}
 
 	private void viewTransferHistory() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void viewPendingRequests() {
@@ -105,12 +112,17 @@ public class App {
 
 	private void sendBucks() {
 		// TODO Auto-generated method stub
-		
+
+
 	}
 
 	private void requestBucks() {
 		// TODO Auto-generated method stub
 		
 	}
+
+
+
+
 
 }
