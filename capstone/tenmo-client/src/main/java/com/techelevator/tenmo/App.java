@@ -118,6 +118,10 @@ public class App {
         accountService.printListOfUsers();
         System.out.println("-----------");
 
+        transfer.setAccountFrom(currentUser.getUser().getId());
+        transfer.setAccountTo(consoleService.promptForInt("Enter ID of user you are sending to (0 to cancel): "));
+        transfer.setAmount(consoleService.promptForBigDecimal("Enter amount: "));
+
         transferService.add(transfer);
 
 	}

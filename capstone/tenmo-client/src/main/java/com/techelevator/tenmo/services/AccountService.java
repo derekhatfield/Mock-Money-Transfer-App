@@ -33,15 +33,16 @@ public class AccountService {
         this.authToken = authToken;
     }
 
-    public Account getAccount(long accountId) {
+    public Account getAccount(long userId) {
         Account account = null;
         try {
-            account = restTemplate.getForObject(baseUrl + "account/" + accountId, Account.class);
+            account = restTemplate.getForObject(baseUrl + "account/" + userId, Account.class);
         } catch(RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
         }
         return account;
     }
+
 
     public BigDecimal getBalanceByAccountId(long accountId) {
         BigDecimal balance = null;
