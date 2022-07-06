@@ -26,18 +26,18 @@ public class TransferService {
         this.authToken = authToken;
     }
 
-    public TransferService(String url, User user, Account account, AuthenticatedUser currentUser) {
+    public TransferService(String url, User user, Account account) {
         this.baseUrl = url;
         this.user = user;
         this.account = account;
-        this.currentUser = currentUser;
+
     }
 
 
     public HttpEntity<Transfer> makeTransferEntity(Transfer transfer){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setBearerAuth(currentUser.getToken());
+        headers.setBearerAuth(authToken);
         return new HttpEntity<>(transfer, headers);
     }
 

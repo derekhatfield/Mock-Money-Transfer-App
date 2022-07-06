@@ -21,16 +21,16 @@ public class AccountService {
     private final RestTemplate restTemplate = new RestTemplate();
     private User user;
     private String authToken = null;
-    private AuthenticatedUser currentUser;
 
-    public AccountService(String url, User user, AuthenticatedUser currentUser) {
+
+    public AccountService(String url, User user) {
         this.baseUrl = url;
         this.user = user;
-        this.currentUser = currentUser;
+
     }
 
     public void setAuthToken(String authToken) {
-        this.authToken = currentUser.getToken();
+        this.authToken = authToken;
     }
 
     public Account getAccount(long accountId) {
@@ -57,7 +57,7 @@ public class AccountService {
 
         User[] users = null;
         try {
-            ResponseEntity<User[]> response = restTemplate.exchange(baseUrl + "listusers", HttpMethod.GET, makeAuthEntity(), User[].class);
+            ResponseEntity<User[]> response = restTemplate.exchange(baseUrl + "userslist", HttpMethod.GET, makeAuthEntity(), User[].class);
             users = response.getBody();
 
             for (User user : users) {
@@ -72,7 +72,7 @@ public class AccountService {
 
     public HttpEntity<Void> makeAuthEntity() {
         HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(currentUser.getToken());
+        headers.setBearerAuth(authToken);
         return new HttpEntity<>(headers);
     }
 

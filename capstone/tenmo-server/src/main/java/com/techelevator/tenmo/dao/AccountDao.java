@@ -7,5 +7,10 @@ public interface AccountDao {
 
     BigDecimal getBalance(int accountId);
 
+    BigDecimal addToBalance(int accountId, BigDecimal amountToAdd);
+
+    BigDecimal subtractFromBalance(int accountId, BigDecimal amountToSubtract);
+
+
 
 }

@@ -1,9 +1,6 @@
 package com.techelevator.tenmo;
 
-import com.techelevator.tenmo.model.Account;
-import com.techelevator.tenmo.model.AuthenticatedUser;
-import com.techelevator.tenmo.model.User;
-import com.techelevator.tenmo.model.UserCredentials;
+import com.techelevator.tenmo.model.*;
 import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
@@ -15,12 +12,13 @@ public class App {
     private static final String API_BASE_URL = "http://localhost:8080/";
     private static final User user = new User();
     private static final Account account = new Account();
+    private static final Transfer transfer = new Transfer();
     private AuthenticatedUser currentUser;
 
     private final ConsoleService consoleService = new ConsoleService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
-    private final AccountService accountService = new AccountService(API_BASE_URL, user, currentUser);
-    private final TransferService transferService = new TransferService(API_BASE_URL, user, account, currentUser);
+    private final AccountService accountService = new AccountService(API_BASE_URL, user);
+    private final TransferService transferService = new TransferService(API_BASE_URL, user, account);
 
 
 
@@ -113,8 +111,14 @@ public class App {
 
 	private void sendBucks() {
 		// TODO Auto-generated method stub
+        System.out.println("-------------------------");
+        System.out.println("Users");
+        System.out.println("ID          Name");
+        System.out.println("-------------------------");
         accountService.printListOfUsers();
+        System.out.println("-----------");
 
+        transferService.add(transfer);
 
 	}
 
