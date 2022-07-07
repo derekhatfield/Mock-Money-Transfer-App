@@ -54,6 +54,17 @@ public class AccountService {
         return balance;
     }
 
+    public Long getAccountIdByUserId(long userId){
+        Long newId = null;
+        try {
+            newId = restTemplate.getForObject(baseUrl + "account/" + userId, Long.class);
+        } catch(RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+        return newId;
+
+    }
+
     public void printListOfUsers() {
         User[] users = null;
         try {

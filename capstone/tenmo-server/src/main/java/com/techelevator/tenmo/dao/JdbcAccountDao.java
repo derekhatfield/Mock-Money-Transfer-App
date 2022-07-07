@@ -17,12 +17,21 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     @Override
-    public BigDecimal getBalance(long userId) {
-        String sql = "SELECT balance FROM account WHERE user_id = ?;";
-        BigDecimal balance = jdbcTemplate.queryForObject(sql, BigDecimal.class, userId);
+    public BigDecimal getBalance(long accountId) {
+        String sql = "SELECT balance FROM account WHERE account_id = ?;";
+        BigDecimal balance = jdbcTemplate.queryForObject(sql, BigDecimal.class, accountId);
 
         return balance;
     }
+
+    @Override
+    public Long getAccountIdByUserId(long userId){
+        String sql = "SELECT account_id FROM account WHERE user_id = ?;";
+        Long accountId = jdbcTemplate.queryForObject(sql, Long.class, userId);
+
+        return accountId;
+    }
+
 
     @Override
     public Account getAccountByUserId(long userId){

@@ -123,18 +123,24 @@ public class App {
         accountService.printListOfUsers();
         System.out.println("-----------");
 
-        transfer.setAccountFrom(account.getAccountId());
-        transfer.setAccountTo(consoleService.promptForInt("Enter ID of user you are sending to (0 to cancel): "));
-        transfer.setAmount(consoleService.promptForBigDecimal("Enter amount: "));
-        BigDecimal newReceiverBalance = accountService.getBalanceByAccountId(transfer.getAccountTo()).add(transfer.getAmount());
-        BigDecimal newSenderBalance = accountService.getBalanceByAccountId(currentUser.getUser().getId()).subtract(transfer.getAmount());
-        System.out.println("Your new balance is: " + newSenderBalance);
-        System.out.println("Receivers balance is: " + newReceiverBalance);
-        System.out.println(transfer.getAccountTo());
-        System.out.println("the current account id is: " + account.getBalance());
+//        transfer.setAccountFrom(account.getAccountId());
+        long currentUserAccountId = accountService.getAccountIdByUserId(currentUser.getUser().getId());
+        transfer.setAccountFrom(currentUserAccountId);
+        int accountId = consoleService.promptForInt("Enter ID of user you are sending to (0 to cancel): ");
+        transfer.setAccountTo(accountService.getAccountIdByUserId(accountId));
+        if (transfer.getAccountFrom() == transfer.getAccountTo()){
+            consoleService.printErrorMessage();
+        }else {
+            transfer.setAmount(consoleService.promptForBigDecimal("Enter amount: "));
+            BigDecimal newReceiverBalance = accountService.getBalanceByAccountId(transfer.getAccountTo()).add(transfer.getAmount());
+            BigDecimal newSenderBalance = accountService.getBalanceByAccountId(transfer.getAccountFrom()).subtract(transfer.getAmount());
+            System.out.println("Your new balance is: " + newSenderBalance);
+            System.out.println("Receivers balance is: " + newReceiverBalance);
+            System.out.println(transfer.getAccountTo());
+            System.out.println("the current account id is: " + account.getBalance());
 
-        transferService.addTransfer(transfer);
-
+            transferService.addTransfer(transfer);
+        }
 	}
 
 	private void requestBucks() {

@@ -50,4 +50,13 @@ public class AccountController {
         return users;
     }
 
+    @RequestMapping(path = "{id}", method = RequestMethod.GET)
+    public long getAccountIdFromUserId(@PathVariable long id){
+        return accountDao.getAccountIdByUserId(id);
+
+
+    }
+
+
+
 }

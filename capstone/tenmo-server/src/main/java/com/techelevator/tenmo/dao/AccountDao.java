@@ -11,4 +11,6 @@ public interface AccountDao {
 
     void updateBalance(Account account);
 
+    Long getAccountIdByUserId(long userId);
+
 }
