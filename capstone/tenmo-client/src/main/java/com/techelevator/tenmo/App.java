@@ -100,7 +100,7 @@ public class App {
 
 	private void viewCurrentBalance() {
 		// TODO Auto-generated method stub
-        System.out.println("Your current account balance is: $" + accountService.getBalanceByAccountId(currentUser.getUser().getId()));
+        System.out.println("Your current account balance is: $" + accountService.getBalanceByAccountId(accountService.getAccountIdByUserId(currentUser.getUser().getId())));
 
 	}
 
@@ -123,7 +123,6 @@ public class App {
         accountService.printListOfUsers();
         System.out.println("-----------");
 
-//        transfer.setAccountFrom(account.getAccountId());
         long currentUserAccountId = accountService.getAccountIdByUserId(currentUser.getUser().getId());
         transfer.setAccountFrom(currentUserAccountId);
         int accountId = consoleService.promptForInt("Enter ID of user you are sending to (0 to cancel): ");
@@ -132,14 +131,23 @@ public class App {
             consoleService.printErrorMessage();
         }else {
             transfer.setAmount(consoleService.promptForBigDecimal("Enter amount: "));
-            BigDecimal newReceiverBalance = accountService.getBalanceByAccountId(transfer.getAccountTo()).add(transfer.getAmount());
-            BigDecimal newSenderBalance = accountService.getBalanceByAccountId(transfer.getAccountFrom()).subtract(transfer.getAmount());
-            System.out.println("Your new balance is: " + newSenderBalance);
-            System.out.println("Receivers balance is: " + newReceiverBalance);
-            System.out.println(transfer.getAccountTo());
-            System.out.println("the current account id is: " + account.getBalance());
+            if (transfer.getAmount().compareTo(accountService.getBalanceByAccountId(currentUserAccountId)) == 1) {
+                System.out.println("You don't have enough!");
+                consoleService.printErrorMessage();
+            } else if (transfer.getAmount().compareTo(BigDecimal.valueOf(0)) <= 0) {
+                System.out.println("Invalid amount.");
+                consoleService.printErrorMessage();
+            } else {
+                BigDecimal newReceiverBalance = accountService.getBalanceByAccountId(transfer.getAccountTo()).add(transfer.getAmount());
+                BigDecimal newSenderBalance = accountService.getBalanceByAccountId(transfer.getAccountFrom()).subtract(transfer.getAmount());
+                System.out.println("Your new balance is: " + newSenderBalance);
+                System.out.println("Receivers balance is: " + newReceiverBalance);
 
-            transferService.addTransfer(transfer);
+                transferService.addTransfer(transfer);
+
+                accountService.updateBalance(accountService.getAccount(currentUser.getUser().getId()), newSenderBalance);
+                accountService.updateBalance(accountService.getAccount(accountId), newReceiverBalance);
+            }
         }
 	}
 

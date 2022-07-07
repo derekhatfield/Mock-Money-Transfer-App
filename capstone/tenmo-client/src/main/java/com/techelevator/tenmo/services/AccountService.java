@@ -2,12 +2,10 @@ package com.techelevator.tenmo.services;
 
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.util.BasicLogger;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
@@ -36,7 +34,7 @@ public class AccountService {
     public Account getAccount(long userId) {
         Account account = null;
         try {
-            account = restTemplate.getForObject(baseUrl + "account/" + userId, Account.class);
+            account = restTemplate.getForObject(baseUrl + "account/test/" + userId, Account.class);
         } catch(RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
         }
@@ -80,11 +78,26 @@ public class AccountService {
 
     }
 
+    public boolean updateBalance(Account account, BigDecimal updatedBalance) {
+        account.setBalance(updatedBalance);
+        HttpEntity<Account> entity = makeAccountEntity(account);
+        boolean success = false;
+        try {
+            restTemplate.put(baseUrl + "account/balance/" + account.getAccountId(), entity);
+            success = true;
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+        return success;
+    }
 
 
-
-
-
+    public HttpEntity<Account> makeAccountEntity(Account account){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(authToken);
+        return new HttpEntity<>(account, headers);
+    }
 
 
     public HttpEntity<Void> makeAuthEntity() {

@@ -45,9 +45,10 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     @Override
-    public void updateBalance(Account account) {
+    public BigDecimal updateBalance(Account account) {
         String sql = "UPDATE account SET balance = ? WHERE account_id = ?;";
-        jdbcTemplate.update(sql,account.getBalance(),account.getAccountId());
+        jdbcTemplate.update(sql, account.getBalance(), account.getAccountId());
+        return account.getBalance();
     }
 
     private Account mapRowToAccount(SqlRowSet rowSet) {
