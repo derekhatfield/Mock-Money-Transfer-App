@@ -23,9 +23,9 @@ public class AccountService {
     private String authToken = null;
 
 
-    public AccountService(String url, User user) {
+    public AccountService(String url) {
         this.baseUrl = url;
-        this.user = user;
+        //this.user = user;
 
     }
 

@@ -20,11 +20,11 @@ import java.util.List;
 @RequestMapping("account/")
 public class AccountController {
 
-    private AccountDao dao;
+    private AccountDao accountDao;
     private UserDao userDao;
 
     public AccountController(AccountDao accountDao, UserDao userDao) {
-        this.dao = accountDao;
+        this.accountDao = accountDao;
         this.userDao = userDao;
     }
 
@@ -37,14 +37,12 @@ public class AccountController {
 
     @RequestMapping(path = "balance/{id}", method = RequestMethod.GET)
     public BigDecimal getBalance(@PathVariable int id) {
-        return dao.getBalance(id);
+        return accountDao.getBalance(id);
     }
 
     public long getUserId(Principal principal){
         return userDao.findByUsername(principal.getName()).getId();
     }
-
-
 
     @RequestMapping(path = "userslist", method = RequestMethod.GET)
     public List<User> listUsers() {

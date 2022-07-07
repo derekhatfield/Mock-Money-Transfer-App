@@ -26,10 +26,10 @@ public class TransferService {
         this.authToken = authToken;
     }
 
-    public TransferService(String url, User user, Account account) {
+    public TransferService(String url) {
         this.baseUrl = url;
-        this.user = user;
-        this.account = account;
+        //this.user = user;
+        //this.account = account;
 
     }
 
@@ -47,7 +47,7 @@ public class TransferService {
         return new HttpEntity<>(headers);
     }
 
-    public Transfer add(Transfer transfer){
+    public Transfer addTransfer(Transfer transfer){
         HttpEntity<Transfer> entity = makeTransferEntity(transfer);
         Transfer returnedTransfer = null;
 

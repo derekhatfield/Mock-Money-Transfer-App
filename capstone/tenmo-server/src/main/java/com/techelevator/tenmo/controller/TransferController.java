@@ -19,7 +19,7 @@ public class TransferController {
 
     @RequestMapping(path = "transfer/", method = RequestMethod.POST)
     public void createTransfer(@RequestBody Transfer transfer){
-        dao.sendMoney(transfer);
+        dao.createNewTransfer(transfer);
 
     }
 

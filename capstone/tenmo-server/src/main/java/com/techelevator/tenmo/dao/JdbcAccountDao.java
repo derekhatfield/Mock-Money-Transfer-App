@@ -23,6 +23,7 @@ public class JdbcAccountDao implements AccountDao {
 
         return balance;
     }
+
     @Override
     public Account getAccountByUserId(long userId){
         Account newAccount = null;
@@ -38,11 +39,7 @@ public class JdbcAccountDao implements AccountDao {
     public void updateBalance(Account account) {
         String sql = "UPDATE account SET balance = ? WHERE account_id = ?;";
         jdbcTemplate.update(sql,account.getBalance(),account.getAccountId());
-
     }
-
-
-
 
     private Account mapRowToAccount(SqlRowSet rowSet) {
         Account account = new Account();

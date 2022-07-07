@@ -5,6 +5,7 @@ import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
 import com.techelevator.tenmo.services.TransferService;
+import org.springframework.http.converter.json.GsonBuilderUtils;
 
 import java.math.BigDecimal;
 
@@ -19,8 +20,8 @@ public class App {
 
     private final ConsoleService consoleService = new ConsoleService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
-    private final AccountService accountService = new AccountService(API_BASE_URL, user);
-    private final TransferService transferService = new TransferService(API_BASE_URL, user, account);
+    private final AccountService accountService = new AccountService(API_BASE_URL);
+    private final TransferService transferService = new TransferService(API_BASE_URL);
 
 
 
@@ -70,6 +71,8 @@ public class App {
             consoleService.printErrorMessage();
         }
     }
+
+
 
     private void mainMenu() {
         int menuSelection = -1;
@@ -128,8 +131,9 @@ public class App {
         System.out.println("Your new balance is: " + newSenderBalance);
         System.out.println("Receivers balance is: " + newReceiverBalance);
         System.out.println(transfer.getAccountTo());
+        System.out.println("the current account id is: " + account.getBalance());
 
-        transferService.add(transfer);
+        transferService.addTransfer(transfer);
 
 	}
 
