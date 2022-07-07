@@ -19,9 +19,13 @@ public class JdbcTransferDao implements TransferDao {
 
     @Override
     public void sendMoney(Transfer transfer) {
-        String sql = "INSERT INTO transfer(account_from,account_to,amount,transfer_type_id,transfer_status_id) " +
-                "VALUES(? , ? , ? , 2, 2);";
+        String sql = "INSERT INTO transfer(transfer_id, account_from,account_to,amount,transfer_type_id,transfer_status_id) " +
+                "VALUES(?, ? , ? , ? , ?, ?);";
         boolean success = false;
+
+       //long newTransferId =
+
+
         if(transfer.getAccountFrom() == transfer.getAccountTo()){
             System.out.println("You cannot send a transfer to yourself");
         }else {

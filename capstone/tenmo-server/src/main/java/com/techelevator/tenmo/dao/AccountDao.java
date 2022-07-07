@@ -5,12 +5,11 @@ import com.techelevator.tenmo.model.Account;
 
 public interface AccountDao {
 
-    BigDecimal getBalance(int accountId);
-
-    BigDecimal addToBalance(int accountId, BigDecimal amountToAdd);
-
-    BigDecimal subtractFromBalance(int accountId, BigDecimal amountToSubtract);
+    BigDecimal getBalance(long accountId);
 
 
+    Account getAccountByUserId(long userId);
+
+    void updateBalance(Account account);
 
 }

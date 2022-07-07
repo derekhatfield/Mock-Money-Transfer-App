@@ -17,27 +17,31 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     @Override
-    public BigDecimal getBalance(int userId) {
+    public BigDecimal getBalance(long userId) {
         String sql = "SELECT balance FROM account WHERE user_id = ?;";
         BigDecimal balance = jdbcTemplate.queryForObject(sql, BigDecimal.class, userId);
 
         return balance;
     }
-
     @Override
-    public BigDecimal addToBalance(int userId, BigDecimal amountToAdd) {
-        BigDecimal newBalance = getBalance(userId).add(amountToAdd);
-       String sql = "UPDATE account SET balance=? WHERE user_id = ? ;";
-       jdbcTemplate.update(sql, newBalance, userId);
-
-
-        return getBalance(userId);
+    public Account getAccountByUserId(long userId){
+        Account newAccount = null;
+        String sql = "SELECT account_id, user_id, balance FROM account WHERE user_id = ?;";
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, userId);
+        if (result.next()){
+            newAccount = mapRowToAccount(result);
+        }
+        return newAccount;
     }
 
     @Override
-    public BigDecimal subtractFromBalance(int accountId, BigDecimal amountToSubtract) {
-        return null;
+    public void updateBalance(Account account) {
+        String sql = "UPDATE account SET balance = ? WHERE account_id = ?;";
+        jdbcTemplate.update(sql,account.getBalance(),account.getAccountId());
+
     }
+
+
 
 
     private Account mapRowToAccount(SqlRowSet rowSet) {

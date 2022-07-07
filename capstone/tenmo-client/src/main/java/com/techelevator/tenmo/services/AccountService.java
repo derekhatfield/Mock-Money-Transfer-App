@@ -47,7 +47,7 @@ public class AccountService {
     public BigDecimal getBalanceByAccountId(long accountId) {
         BigDecimal balance = null;
         try {
-            balance = restTemplate.getForObject(baseUrl + "account/" + accountId, BigDecimal.class);
+            balance = restTemplate.getForObject(baseUrl + "account/balance/" + accountId, BigDecimal.class);
         } catch(RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
         }
@@ -55,21 +55,26 @@ public class AccountService {
     }
 
     public void printListOfUsers() {
-
         User[] users = null;
         try {
-            ResponseEntity<User[]> response = restTemplate.exchange(baseUrl + "userslist", HttpMethod.GET, makeAuthEntity(), User[].class);
+            ResponseEntity<User[]> response = restTemplate.exchange(baseUrl + "account/userslist", HttpMethod.GET, makeAuthEntity(), User[].class);
             users = response.getBody();
 
             for (User user : users) {
                 System.out.println(user.getId() + "      " + user.getUsername());
             }
-
         } catch(RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
         }
 
     }
+
+
+
+
+
+
+
 
     public HttpEntity<Void> makeAuthEntity() {
         HttpHeaders headers = new HttpHeaders();
