@@ -9,6 +9,43 @@ public class Transfer {
     private long accountFrom;
     private long accountTo;
     private BigDecimal amount;
+    private String transferTypeDescription;
+    private String transferStatusDescription;
+    private String fromUser;
+    private String toUser;
+
+
+    public String getFromUser() {
+        return fromUser;
+    }
+
+    public void setFromUser(String fromUser) {
+        this.fromUser = fromUser;
+    }
+
+    public String getToUser() {
+        return toUser;
+    }
+
+    public void setToUser(String toUser) {
+        this.toUser = toUser;
+    }
+
+    public String getTransferTypeDescription() {
+        return transferTypeDescription;
+    }
+
+    public void setTransferTypeDescription(String transferTypeDescription) {
+        this.transferTypeDescription = transferTypeDescription;
+    }
+
+    public String getTransferStatusDescription() {
+        return transferStatusDescription;
+    }
+
+    public void setTransferStatusDescription(String transferStatusDescription) {
+        this.transferStatusDescription = transferStatusDescription;
+    }
 
     public long getTransferId() {
         return transferId;
@@ -62,12 +99,12 @@ public class Transfer {
 
     }
 
-    public  Transfer(long transferId, long transferStatusId, long transferTypeId, long accountFrom, long accountTo, BigDecimal amount ){
+    public  Transfer(long transferId, String transferStatusDescription, String transferTypeDescription, String fromUser, String toUser, BigDecimal amount ){
         this.transferId = transferId;
-        this.transferStatusId = transferStatusId;
-        this.transferTypeId = transferTypeId;
-        this.accountFrom = accountFrom;
-        this.accountTo = accountTo;
+        this.transferStatusDescription = transferStatusDescription;
+        this.transferTypeDescription = transferTypeDescription;
+        this.fromUser = fromUser;
+        this.toUser = toUser;
         this.amount = amount;
     }
 
@@ -80,6 +117,10 @@ public class Transfer {
                 ", accountFrom=" + accountFrom +
                 ", accountTo=" + accountTo +
                 ", amount=" + amount +
+                ", transferTypeDescription='" + transferTypeDescription + '\'' +
+                ", transferStatusDescription='" + transferStatusDescription + '\'' +
+                ", fromUser='" + fromUser + '\'' +
+                ", toUser='" + toUser + '\'' +
                 '}';
     }
 }

@@ -28,10 +28,30 @@ public class TransferService {
 
     public TransferService(String url) {
         this.baseUrl = url;
-        //this.user = user;
-        //this.account = account;
+
 
     }
+
+    public void printListOfTransferByAccountId(long accountId){
+        Transfer[] transfers = null;
+        try{
+            ResponseEntity<Transfer[]> response = restTemplate.exchange(baseUrl + "transfer/" + accountId + "/transferslist",
+                    HttpMethod.GET, makeAuthEntity(), Transfer[].class);
+            transfers = response.getBody();
+
+            for (Transfer transfer : transfers){
+                System.out.println(transfer.getTransferId() + "      " + "From: " + transfer.getFromUser()  + "          $" + transfer.getAmount());
+            }
+
+        }catch(RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+
+
+
+    }
+
+
 
 
     public HttpEntity<Transfer> makeTransferEntity(Transfer transfer){
