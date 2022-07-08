@@ -25,13 +25,6 @@ public class AccountController {
         this.userDao = userDao;
     }
 
-  /*  @RequestMapping(path = "balance" , method = RequestMethod.GET)
-    public BigDecimal getBalance(Principal principal) {
-        long userId = getUserId(principal);
-        return dao.getAccountByUserId(userId).getBalance();
-    }*/
-
-
     @RequestMapping(path = "balance/{id}", method = RequestMethod.GET)
     public BigDecimal getBalance(@PathVariable int id) {
         return accountDao.getBalance(id);
@@ -61,6 +54,5 @@ public class AccountController {
     public Account getAccountByUserId(@PathVariable long id) {
         return accountDao.getAccountByUserId(id);
     }
-
 
 }

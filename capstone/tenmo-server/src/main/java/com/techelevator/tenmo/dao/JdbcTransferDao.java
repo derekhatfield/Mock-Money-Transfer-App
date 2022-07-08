@@ -1,5 +1,6 @@
 package com.techelevator.tenmo.dao;
 
+import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -14,7 +15,6 @@ public class JdbcTransferDao implements TransferDao {
 
     JdbcTemplate jdbcTemplate;
     UserDao userDao;
-
 
     private static final String SQL_SELECT_TRANSFER =  "SELECT t.transfer_id, tt.transfer_type_desc, ts.transfer_status_desc, t.amount, " +
             "aFrom.account_id as fromAcct, aFrom.user_id as fromUser, aFrom.balance as fromBal, " +
@@ -43,10 +43,16 @@ public class JdbcTransferDao implements TransferDao {
         return transfers;
     }
 
-
-
-
-
+    @Override
+    public Transfer getTransferByTransferId(long transferId){
+        Transfer transfer = null;
+        String sql = "WHERE transfer_id = ?;";
+        SqlRowSet result = jdbcTemplate.queryForRowSet(SQL_SELECT_TRANSFER + sql, transferId);
+        if (result.next()){
+            transfer = mapRowToTransfer(result);
+        }
+        return transfer;
+    }
 
     @Override
     public void createNewTransfer(Transfer newTransfer) {
@@ -58,18 +64,14 @@ public class JdbcTransferDao implements TransferDao {
         }else {
             jdbcTemplate.update(sql, newTransfer.getAccountFrom(), newTransfer.getAccountTo(), newTransfer.getAmount());
             System.out.println("Transfer completed");
-
         }
-
     }
-
-
 
     private Transfer mapRowToTransfer(SqlRowSet rowSet){
 
        Transfer transfer = new Transfer(rowSet.getLong("transfer_id"),rowSet.getString("transfer_status_desc"),rowSet.getString("transfer_type_desc"),
-               userDao.getUserById(rowSet.getLong("fromUser")), userDao.getUserById(rowSet.getLong("toUser")),rowSet.getBigDecimal("amount"));
-
+               userDao.getUserById(rowSet.getLong("fromUser")), userDao.getUserById(rowSet.getLong("toUser")),rowSet.getBigDecimal("amount"),
+               rowSet.getLong("fromAcct"), rowSet.getLong("toAcct"));
 
         return transfer;
     }

@@ -96,16 +96,18 @@ public class Transfer {
     }
 
     public Transfer(){
-
     }
 
-    public  Transfer(long transferId, String transferStatusDescription, String transferTypeDescription, String fromUser, String toUser, BigDecimal amount ){
+    public Transfer(long transferId, String transferStatusDescription, String transferTypeDescription, String fromUser,
+                    String toUser, BigDecimal amount, long accountFrom, long accountTo){
         this.transferId = transferId;
         this.transferStatusDescription = transferStatusDescription;
         this.transferTypeDescription = transferTypeDescription;
         this.fromUser = fromUser;
         this.toUser = toUser;
         this.amount = amount;
+        this.accountFrom = accountFrom;
+        this.accountTo = accountTo;
     }
 
     @Override

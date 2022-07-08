@@ -40,11 +40,4 @@ public class Account {
         this.balance = balance;
     }
 
-    public void transfer(Account accountTo, BigDecimal amount) {
-        if(this.balance.compareTo(amount) >= 0) {
-            this.balance = this.balance.subtract(amount);
-            accountTo.balance = accountTo.balance.add(amount);
-        }
-    }
-
 }

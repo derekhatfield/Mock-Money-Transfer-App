@@ -100,30 +100,27 @@ public class Transfer {
 
     }
 
-    public  Transfer(long transferId, String transferStatusDescription, String transferTypeDescription, String fromUser, String toUser, BigDecimal amount ){
+    public Transfer(long transferId, String transferStatusDescription, String transferTypeDescription, String fromUser,
+                    String toUser, BigDecimal amount, long accountFrom, long accountTo){
         this.transferId = transferId;
         this.transferStatusDescription = transferStatusDescription;
         this.transferTypeDescription = transferTypeDescription;
         this.fromUser = fromUser;
         this.toUser = toUser;
         this.amount = amount;
+        this.accountFrom = accountFrom;
+        this.accountTo = accountTo;
     }
 
     @Override
     public String toString() {
-        return "Transfer{" +
-                "transferId=" + transferId +
-                ", transferTypeId=" + transferTypeId +
-                ", transferStatusId=" + transferStatusId +
-                ", accountFrom=" + accountFrom +
-                ", accountTo=" + accountTo +
-                ", amount=" + amount +
-                ", transferTypeDescription='" + transferTypeDescription + '\'' +
-                ", transferStatusDescription='" + transferStatusDescription + '\'' +
-                ", fromUser='" + fromUser + '\'' +
-                ", toUser='" + toUser + '\'' +
-                '}';
+        return "----------------\nTransfer Details\n----------------\n" +
+                "Id: " + getTransferId() + "\n" +
+                "From: " + getFromUser() + "\n" +
+                "To: " + getToUser() + "\n" +
+                "Type: " + getTransferTypeDescription() + "\n" +
+                "Status: " + getTransferStatusDescription() + "\n" +
+                "Amount: $" + getAmount();
     }
-
 
 }

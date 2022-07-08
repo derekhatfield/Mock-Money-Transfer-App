@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+//@PreAuthorize("isAuthenticated()")
 @RequestMapping("transfer/")
 @RestController
 public class TransferController {
@@ -24,21 +25,14 @@ public class TransferController {
 
     }
 
-
     @RequestMapping(path = "{id}/transferslist", method = RequestMethod.GET)
     public List<Transfer> listTransfers(@PathVariable long id) {
         return dao.findAll(id);
     }
 
-
-
-
-
-
-
-
-
-
-
+    @RequestMapping(path = "{id}", method = RequestMethod.GET)
+    public Transfer getTransferByTransferId(@PathVariable long id) {
+        return dao.getTransferByTransferId(id);
+    }
 
 }

@@ -10,9 +10,6 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
-import java.util.Map;
-
 public class TransferService {
 
     private final String baseUrl;
@@ -28,8 +25,6 @@ public class TransferService {
 
     public TransferService(String url) {
         this.baseUrl = url;
-
-
     }
 
     public void printListOfTransferByAccountId(long accountId){
@@ -40,19 +35,37 @@ public class TransferService {
             transfers = response.getBody();
 
             for (Transfer transfer : transfers){
-                System.out.println(transfer.getTransferId() + "      " + "From: " + transfer.getFromUser()  + "          $" + transfer.getAmount());
+                if (transfer.getAccountTo() == accountId) {
+                    System.out.println(transfer.getTransferId() + "      " +  "From: " + transfer.getFromUser() + "          $" + transfer.getAmount());
+                } else {
+                    System.out.println(transfer.getTransferId() + "      " + "To: " + transfer.getToUser()  + "              $" + transfer.getAmount());
+                }
             }
+        } catch(RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+    }
 
+    public Transfer printTransferByTransferId(long transferId) {
+        Transfer transfer = null;
+        try {
+            transfer = restTemplate.getForObject(baseUrl + "transfer/" + transferId, Transfer.class);
+        } catch(RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+        return transfer;
+    }
+
+    public Transfer addTransfer(Transfer transfer){
+        HttpEntity<Transfer> entity = makeTransferEntity(transfer);
+        Transfer returnedTransfer = null;
+        try{
+            returnedTransfer = restTemplate.postForObject(baseUrl + "transfer/", entity, Transfer.class);
         }catch(RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
         }
-
-
-
+        return returnedTransfer;
     }
-
-
-
 
     public HttpEntity<Transfer> makeTransferEntity(Transfer transfer){
         HttpHeaders headers = new HttpHeaders();
@@ -66,26 +79,5 @@ public class TransferService {
         headers.setBearerAuth(authToken);
         return new HttpEntity<>(headers);
     }
-
-    public Transfer addTransfer(Transfer transfer){
-        HttpEntity<Transfer> entity = makeTransferEntity(transfer);
-        Transfer returnedTransfer = null;
-
-        try{
-            returnedTransfer = restTemplate.postForObject(baseUrl + "transfer/", entity, Transfer.class);
-        }catch(RestClientResponseException | ResourceAccessException e) {
-            BasicLogger.log(e.getMessage());
-        }
-        return returnedTransfer;
-    }
-
-
-
-
-
-
-
-
-
 
 }
