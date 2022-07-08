@@ -14,10 +14,7 @@ public class TransferService {
 
     private final String baseUrl;
     private final RestTemplate restTemplate = new RestTemplate();
-    private User user;
-    private Account account;
     private String authToken = null;
-    private AuthenticatedUser currentUser;
 
     public void setAuthToken(String authToken) {
         this.authToken = authToken;

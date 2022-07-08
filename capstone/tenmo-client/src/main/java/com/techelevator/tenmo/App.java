@@ -16,7 +16,7 @@ public class App {
     private static final User user = new User();
     private static final Account account = new Account();
     private static final Transfer transfer = new Transfer();
-    private AuthenticatedUser currentUser;
+    public static AuthenticatedUser currentUser;
 
     private final ConsoleService consoleService = new ConsoleService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
