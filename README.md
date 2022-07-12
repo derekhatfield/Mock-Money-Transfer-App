@@ -1,4 +1,6 @@
-This project was our second capstone project for Tech Elevator. This project was worked on alongside a partner. 
+This project was our second capstone project for Tech Elevator. This project was worked on alongside a partner.
+
+NOTE: This project is not entirely finished! I want to continue working on the additional optional use cases on my own now that the project timeframe is over.
 
 # Module 2 Capstone - TEnmo
 
